@@ -9,8 +9,7 @@ case $1 in
 "setup")
   docker compose build && \
   ${DC} bundle install && \
-  ${DC} bundle exec rails db:setup && \
-  docker compose up
+  ${DC} bundle exec rails s
 ;;
 "up")
   docker compose up
@@ -24,6 +23,9 @@ case $1 in
 ;;
 "rails" | "rake" )
   ${DC} bundle exec rails ${ARGS}
+;;
+"bundle")
+  ${DC} bundle ${ARGS}
 ;;
 *)
   echo Unexpected command: $1
