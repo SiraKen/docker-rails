@@ -1,0 +1,31 @@
+#!/bin/bash
+set -Ceux
+
+ARGS=${@:2}
+
+DC="docker compose run --rm --no-deps web"
+
+case $1 in
+"setup")
+  docker compose build && \
+  ${DC} bundle install && \
+  ${DC} bundle exec rails db:setup && \
+  docker compose up
+;;
+"up")
+  docker compose up
+;;
+"down")
+  docker compose down
+;;
+"restart")
+  docker compose down
+  docker compose up
+;;
+"rails" | "rake" )
+  ${DC} bundle exec rails ${ARGS}
+;;
+*)
+  echo Unexpected command: $1
+;;
+esac
